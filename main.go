@@ -10,5 +10,5 @@ func main() {
 		fmt.Fprintf(w, "Hello, Docker Compose with Go!")
 	})
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":1323", nil)
 }
