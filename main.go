@@ -15,7 +15,9 @@ func main() {
 	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
 		conn := db.New()
 		us := []*entity.User{}
-		conn.Find(&us)
+
+		// query
+		conn.Table("users").Where("email = 'tony@example.com'").Find(&us)
 
 		for _, u := range us {
 			fmt.Fprintf(w, "%v\n", u)
