@@ -9,3 +9,23 @@ services:
       - ./:/go/src/api
     ports:
       - 1323:1323
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    container_name: example-gen-db
+    image: mysql:8.0
+    platform: linux/x86_64
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: example-gen-db
+      MYSQL_USER: example-gen-db
+      MYSQL_PASSWORD: example-gen-db
+      TZ: "Asia/Tokyo"
+    healthcheck:
+      test: mysqladmin ping -h example-gen-db -P 3306 --silent
