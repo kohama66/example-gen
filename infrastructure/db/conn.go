@@ -18,7 +18,6 @@ func init() {
 		panic(err)
 	}
 
-	// generate(db)
 	conn = &Conn{db}
 }
 

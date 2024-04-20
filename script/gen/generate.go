@@ -1,17 +1,19 @@
-package db
+package main
 
 import (
+	"api/infrastructure/db"
+
 	"gorm.io/gen"
-	"gorm.io/gorm"
 )
 
-func generate(conn *gorm.DB) {
+func main() {
+	conn := db.New()
 	g := gen.NewGenerator(gen.Config{
 		OutPath: "infrastructure/db/query",
 		Mode:    gen.WithoutContext | gen.WithDefaultQuery | gen.WithQueryInterface, // generate mode
 	})
 
-	g.UseDB(conn) // reuse your gorm db
+	g.UseDB(conn.DB) // reuse your gorm db
 
 	all := g.GenerateAllTable()
 	g.ApplyBasic(all...)
