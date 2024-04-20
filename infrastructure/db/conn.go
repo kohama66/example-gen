@@ -1,6 +1,8 @@
 package db
 
 import (
+	"api/infrastructure/db/query"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -19,6 +21,10 @@ func init() {
 	}
 
 	conn = &Conn{db}
+}
+
+func Init() {
+	query.SetDefault(conn.DB)
 }
 
 func New() *Conn {
