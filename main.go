@@ -1,8 +1,8 @@
 package main
 
 import (
-	"api/domain/entity"
 	"api/infrastructure/db"
+	"api/infrastructure/db/query"
 	"fmt"
 	"net/http"
 )
@@ -14,10 +14,14 @@ func main() {
 
 	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
 		conn := db.New()
-		us := []*entity.User{}
+		q := query.Use(conn.DB)
+		userQ := q.User
 
-		// query
-		conn.Table("users").Where("email = 'tony@example.com'").Find(&us)
+		us, err := userQ.Where(userQ.Username.Eq("tony")).Find()
+		if err != nil {
+			fmt.Fprintf(w, "Error: %v", err)
+			return
+		}
 
 		for _, u := range us {
 			fmt.Fprintf(w, "%v\n", u)
