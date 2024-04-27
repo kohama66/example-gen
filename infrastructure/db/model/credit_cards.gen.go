@@ -4,9 +4,9 @@
 
 package model
 
-const TableNameCreditCard = "CreditCard"
+const TableNameCreditCard = "credit_cards"
 
-// CreditCard mapped from table <CreditCard>
+// CreditCard mapped from table <credit_cards>
 type CreditCard struct {
 	ID         int32  `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
 	UserID     int32  `gorm:"column:user_id;not null" json:"user_id"`

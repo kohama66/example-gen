@@ -19,7 +19,7 @@ func main() {
 
 	all := g.GenerateAllTable()
 	relation := []interface{}{
-		g.GenerateModel(model.TableNameUser, gen.FieldRelateModel(field.HasMany, model.TableNameCreditCard, model.CreditCard{}, &field.RelateConfig{RelateSlicePointer: true})),
+		g.GenerateModel(model.TableNameUser, gen.FieldRelateModel(field.HasMany, "CreditCards", model.CreditCard{}, &field.RelateConfig{RelateSlicePointer: true})),
 	}
 
 	g.ApplyBasic(all...)
