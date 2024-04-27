@@ -2,8 +2,10 @@ package main
 
 import (
 	"api/infrastructure/db"
+	"api/infrastructure/db/model"
 
 	"gorm.io/gen"
+	"gorm.io/gen/field"
 )
 
 func main() {
@@ -16,7 +18,12 @@ func main() {
 	g.UseDB(conn.DB) // reuse your gorm db
 
 	all := g.GenerateAllTable()
+	relation := []interface{}{
+		g.GenerateModel(model.TableNameUser, gen.FieldRelateModel(field.HasMany, model.TableNameCreditCard, model.CreditCard{}, &field.RelateConfig{RelateSlicePointer: true})),
+	}
+
 	g.ApplyBasic(all...)
+	g.ApplyBasic(relation...)
 
 	g.Execute()
 }
