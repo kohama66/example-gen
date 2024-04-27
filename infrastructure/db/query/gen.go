@@ -16,34 +16,39 @@ import (
 )
 
 var (
-	Q    = new(Query)
-	User *user
+	Q          = new(Query)
+	CreditCard *creditCard
+	User       *user
 )
 
 func SetDefault(db *gorm.DB, opts ...gen.DOOption) {
 	*Q = *Use(db, opts...)
+	CreditCard = &Q.CreditCard
 	User = &Q.User
 }
 
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
-		db:   db,
-		User: newUser(db, opts...),
+		db:         db,
+		CreditCard: newCreditCard(db, opts...),
+		User:       newUser(db, opts...),
 	}
 }
 
 type Query struct {
 	db *gorm.DB
 
-	User user
+	CreditCard creditCard
+	User       user
 }
 
 func (q *Query) Available() bool { return q.db != nil }
 
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
-		db:   db,
-		User: q.User.clone(db),
+		db:         db,
+		CreditCard: q.CreditCard.clone(db),
+		User:       q.User.clone(db),
 	}
 }
 
@@ -57,18 +62,21 @@ func (q *Query) WriteDB() *Query {
 
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
-		db:   db,
-		User: q.User.replaceDB(db),
+		db:         db,
+		CreditCard: q.CreditCard.replaceDB(db),
+		User:       q.User.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
-	User IUserDo
+	CreditCard ICreditCardDo
+	User       IUserDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
-		User: q.User.WithContext(ctx),
+		CreditCard: q.CreditCard.WithContext(ctx),
+		User:       q.User.WithContext(ctx),
 	}
 }
 
